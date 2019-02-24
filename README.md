@@ -148,6 +148,23 @@ $ docker-compose up
 |   |       test.js
 |   |       
 |   +---core
+|   |       agenda.js
+|   |       constants.js
+|   |       context.js
+|   |       express.js
+|   |       init.js
+|   |       logger.js
+|   |       mongo.js
+|   |       mongoose.js
+|   |       redis.js
+|   |       response.js
+|   |       seed-db.js
+|   |       service.js
+|   |       services.js
+|   |       sockets.js
+|   |   +---auth
+|   |   +---en
+|   |       
 |   +---libs
 |   +---locales
 |   |   +---en
@@ -155,7 +172,7 @@ $ docker-compose up
 |   +---models
 |   |       user.js
 |   +---public
-|   +---routes
+|   +---routes [js files for pages; login, express standard]
 |   +---schema
 |   +---services
 |   +---views
