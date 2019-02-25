@@ -21,6 +21,12 @@
 							i.fa.fa-tablet
 						span.label {{ "Devices" | i18n }}
 
+				router-link(tag="li", to="/classifier")
+					a(:title="_('Classifier')")
+						span.icon
+							i.fa.fa-camera
+						span.label {{ "Classify" | i18n }}
+
 				router-link(tag="li", to="/posts")
 					a(:title="_('Posts')")
 						span.icon
@@ -53,7 +59,7 @@
 			"minimized"
 		]
 	};
-	
+
 </script>
 
 <style lang="scss">
