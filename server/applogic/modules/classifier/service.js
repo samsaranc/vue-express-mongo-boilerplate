@@ -1,5 +1,9 @@
 "use strict";
 
+const axios = require('axios')
+
+let url = `http://samsarasd-nlb-fc47c266c07d64e2.elb.us-east-1.amazonaws.com/todo/api/v1.0/tasks`
+
 let logger 		= require("../../../core/logger");
 let config 		= require("../../../config");
 let C 	 		= require("../../../core/constants");
@@ -109,7 +113,9 @@ module.exports = {
 		 *		mutation { counterIncrement }
 		 */
 		increment(ctx) {
-			return this.changeClassifier(ctx, store.classifier + 1);
+//			return this.changeClassifier(ctx, store.classifier + 1);
+//			this.changeClassifier(ctx, store.classifier + 1);
+			return this.queryClassifier(ctx, store.classifier + 1);
 		},
 
 		/**
@@ -139,6 +145,37 @@ module.exports = {
 		 */
 		changeClassifier(ctx, value) {
 			store.classifier = value;
+			console.log(store.classifier);
+			logger.info(ctx.user.username + " changed the classifier to ", store.classifier);
+			this.notifyModelChanges(ctx, "changed", store.classifier);
+
+			return Promise.resolve(store.classifier);
+		},
+
+		queryClassifier(ctx, value) {
+			logger.info(ctx.user.username + " changed the classifier to ", store.classifier);
+			axios({
+        		method: 'post',
+				//url: 'http://samsarasd-nlb-fc47c266c07d64e2.elb.us-east-1.amazonaws.com/todo/api/v1.0/tasks',
+				url: 'http://localhost:5000/todo/api/v1.0/tasks',
+        		header: {
+					'Content-Type': 'application/json'
+				},
+				data: {
+					url: 'https://samsaranc.github.io/images/avatar.jpg'
+				},
+				auth: {
+            		username: 'samsaraRD',
+            		password: 'SD'
+        		}
+    		})
+        	.then(function (response) {
+				store.classifier = Number(response.data.task.pred);
+        	})
+			.catch(function (error) {
+				store.classifier = -1;
+			});
+
 			logger.info(ctx.user.username + " changed the classifier to ", store.classifier);
 			this.notifyModelChanges(ctx, "changed", store.classifier);
 
